@@ -32,7 +32,7 @@
 
 ## Download
 
-**[Download YouTube2Audio.exe](https://github.com/skypedia/youtube2audio/releases/latest)** — portable, no installation required.
+**[Download YouTube2Audio.exe](https://github.com/skypediacode/youtube2audio/raw/main/YouTube2Audio.exe)** — portable, no installation required.
 
 ## Screenshots
 
@@ -47,7 +47,7 @@
 ## Requirements
 
 - Windows 10 or Windows 11
-- [ffmpeg](https://ffmpeg.org/download.html) (required for MP3 conversion, optional for M4A)
+- [FFmpeg](https://ffmpeg.org/download.html) — required for all audio conversion (M4A and MP3)
 
 ## Installation (from source)
 
@@ -94,7 +94,8 @@ Click **Settings** to configure:
 
 ```bash
 venv\Scripts\activate
-build.bat
+pip install pyinstaller
+python -m PyInstaller youtube2audio.spec --clean
 ```
 
 Output: `dist\YouTube2Audio.exe`
