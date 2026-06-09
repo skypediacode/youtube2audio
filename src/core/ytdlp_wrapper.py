@@ -89,7 +89,7 @@ def download_audio(
     outtmpl = str(output_dir / "%(title)s.%(ext)s")
 
     ydl_opts = {
-        "format": f"bestaudio[ext={audio_format}]/bestaudio/best",
+        "format": "bestaudio/best",
         "outtmpl": outtmpl,
         "quiet": True,
         "no_warnings": True,
@@ -98,18 +98,13 @@ def download_audio(
         "noplaylist": True,
     }
 
-    if audio_format == "mp3":
-        ydl_opts["postprocessors"] = [{
-            "key": "FFmpegExtractAudio",
-            "preferredcodec": "mp3",
-            "preferredquality": audio_bitrate if audio_bitrate != "0" else "0",
-        }]
-    elif audio_bitrate != "0":
-        ydl_opts["postprocessors"] = [{
-            "key": "FFmpegExtractAudio",
-            "preferredcodec": audio_format,
-            "preferredquality": audio_bitrate,
-        }]
+    # Always remux/re-encode to the requested audio format so the output
+    # extension is correct regardless of which stream yt-dlp selected.
+    ydl_opts["postprocessors"] = [{
+        "key": "FFmpegExtractAudio",
+        "preferredcodec": audio_format,
+        "preferredquality": audio_bitrate if audio_bitrate != "0" else "0",
+    }]
 
     downloaded_file = None
 
